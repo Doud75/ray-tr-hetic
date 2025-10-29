@@ -82,3 +82,4 @@ Et voilà ! Le ticket `RAY-42` passera automatiquement dans la colonne "Terminé
 ## Contributeur
 - Adrien Quimbre
 - Clément Billien
+- Joseph BAEGNE
