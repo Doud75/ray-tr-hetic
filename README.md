@@ -81,5 +81,6 @@ Une fois la PR approuvée, le reviewer (ou le gardien du dépôt) peut cliquer s
 Et voilà ! Le ticket `RAY-42` passera automatiquement dans la colonne "Terminé".
 ## Contributeur
 - Adrien Quimbre
+- Jean Cazals de Fabel
 - Clément Billien
 - Joseph BAEGNE
