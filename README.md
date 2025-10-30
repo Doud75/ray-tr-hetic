@@ -1,4 +1,68 @@
 # ray-tr-hetic
+# Environnement de Développement Docker
+
+Ce projet utilise Docker pour garantir un environnement de développement et de compilation cohérent pour tous les contributeurs, quelle que soit leur machine locale. Un `Makefile` simplifie toutes les interactions avec cet environnement.
+
+## Prérequis
+
+- **Docker**
+- **Docker Compose**
+- **Make**
+
+Assurez-vous que Docker Desktop (ou Docker Engine) est installé et en cours d'exécution sur votre machine.
+
+## Commandes Principales
+
+Toutes les commandes suivantes doivent être lancées à la racine du projet.
+
+### Construire le Projet
+
+Cette commande démarre le conteneur Docker (si ce n'est pas déjà fait), configure le projet avec CMake et compile le code.
+
+```bash
+make build
+```
+
+### Exécuter l'Application
+
+Pour lancer l'exécutable qui a été compilé.
+
+```bash
+make run
+```
+
+### Nettoyer le Projet
+
+Cette commande supprime tous les fichiers générés par la compilation (le répertoire `build`).
+
+```bash
+make clean
+```
+
+### Cycle de vie complet
+
+Un cycle typique de développement serait :
+1.  Faire des modifications dans le code source.
+2.  `make build` pour compiler les changements.
+3.  `make run` pour tester l'application.
+4.  Répéter.
+
+### Accéder au Conteneur (pour le débogage)
+
+Si vous avez besoin d'explorer l'environnement ou de lancer des commandes manuellement, vous pouvez ouvrir un terminal à l'intérieur du conteneur.
+
+```bash
+make shell
+```
+
+### Arrêter l'Environnement
+
+Quand vous avez fini de travailler, vous pouvez arrêter le conteneur pour libérer des ressources.
+
+```bash
+make stop
+```
+
 # Comment Contribuer à ce Projet
 
 Ce document guide tous les contributeurs pour assurer un processus de développement cohérent, propre et efficace. Suivre ces règles permet de lier notre travail sur GitHub à notre gestion de projet sur Jira.

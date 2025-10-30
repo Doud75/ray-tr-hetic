@@ -1,0 +1,6 @@
+services:
+  raytrhetic:
+    build: .
+    container_name: raytrhetic_dev
+    volumes:
+      - .:/app
