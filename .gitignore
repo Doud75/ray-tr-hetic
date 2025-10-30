@@ -1,1 +1,112 @@
-.idea
+# --- C++ build artifacts ---
+# Compiled object files
+*.o
+*.obj
+*.lo
+*.slo
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic Libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static Libraries
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# --- Build systems ---
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Testing/
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_build/
+build/
+build-*/
+
+# --- IDE / Editors ---
+
+# VS Code
+.vscode/
+.vscode-test/
+.history/
+*.code-workspace
+
+# CLion (JetBrains)
+.idea/
+cmake-build-*/
+out/
+# CLion sometimes stores generated files under cmake-build-debug, cmake-build-release, etc.
+cmake-build-debug/
+cmake-build-release/
+cmake-build-relwithdebinfo/
+cmake-build-minsizerel/
+
+# --- OS generated files ---
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.nfs*
+
+# --- Logs / Temp ---
+*.log
+*.cache
+*.tmp
+*.swp
+*.swo
+
+# --- Coverage / Tests ---
+*.gcda
+*.gcno
+*.gcov
+lcov.info
+
+# --- Miscellaneous ---
+# Backup files
+*.bak
+*.old
+*.orig
+*.save
+
+# Package managers / External deps
+vendor/
+deps/
+third_party/
+
+# If you use Conan or vcpkg
+.conan/
+vcpkg_installed/
+
+repomix-output.xml
