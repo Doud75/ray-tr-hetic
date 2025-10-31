@@ -6,3 +6,10 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_executable(raytrhetic main.cpp)
+
+#[[there is cMakeList in those directories]]
+add_subdirectory(lib/lodepng)
+add_subdirectory(src/image)
+
+
+target_link_libraries(raytrhetic PUBLIC image)

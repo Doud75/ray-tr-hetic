@@ -1,6 +1,28 @@
 #include <iostream>
+#include <tuple>
+#include "image/Image.hpp"
 
-int main() {
-    std::cout << "Hello There!" << std::endl;
+int main()
+{
+    const int image_width = 512;
+    const int image_height = 512;
+
+    Image image(image_width, image_height);
+
+    for (int j = 0; j < image_height; ++j) {
+        for (int i = 0; i < image_width; ++i) {
+            auto r = static_cast<float>(i) / (image_width - 1);
+            auto g = static_cast<float>(j) / (image_height - 1);
+            auto b = 0.2f;
+
+            ColorTuple pixel_color = std::make_tuple(r, g, b);
+
+            image.SetPixel(i, j, pixel_color);
+        }
+    }
+
+    const char* filename = "output_gradient.png";
+    image.WriteFile(filename);
+
     return 0;
 }

@@ -110,3 +110,5 @@ third_party/
 vcpkg_installed/
 
 repomix-output.xml
+
+*.png
