@@ -15,7 +15,7 @@ public:
     Image(unsigned int w, unsigned int h, Color c);
     ~Image();
 
-    void SetPixel(unsigned int x, unsigned int y, const Color& color); //Color& est une réference de l'objet Color (plus opti)
+    void SetPixel(unsigned int x, unsigned int y, const Color& color);
     Color GetPixel(unsigned int x, unsigned int y) const;
 
     void WriteFile(const char* filename);
