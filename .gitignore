@@ -112,3 +112,7 @@ vcpkg_installed/
 repomix-output.xml
 
 *.png
+
+# VS Code / CMake presets (locaux à chaque machine)
+CMakeUserPresets.json
+CMakePresets.json

@@ -10,6 +10,13 @@ add_executable(raytrhetic main.cpp)
 #[[there is cMakeList in those directories]]
 add_subdirectory(lib/lodepng)
 add_subdirectory(src/image)
+add_subdirectory(src/raymath)
+
+
+target_include_directories(raytrhetic PUBLIC
+                           "${PROJECT_BINARY_DIR}"
+                           "${PROJECT_SOURCE_DIR}/include"
+                            )
 
 
 target_link_libraries(raytrhetic PUBLIC image)
