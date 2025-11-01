@@ -1,24 +1,22 @@
 #pragma once
 
 #include <vector>
-#include <tuple>
-
-using ColorTuple = std::tuple<float, float, float>;
+#include "../raymath/Color.hpp"
 
 class Image
 {
 private:
     unsigned int width = 0;
     unsigned int height = 0;
-    std::vector<ColorTuple> buffer;
+    std::vector<Color> buffer;
 
 public:
     Image(unsigned int w, unsigned int h);
-    Image(unsigned int w, unsigned int h, ColorTuple c);
+    Image(unsigned int w, unsigned int h, Color c);
     ~Image();
 
-    void SetPixel(unsigned int x, unsigned int y, ColorTuple color);
-    ColorTuple GetPixel(unsigned int x, unsigned int y);
+    void SetPixel(unsigned int x, unsigned int y, const Color& color);
+    Color GetPixel(unsigned int x, unsigned int y) const;
 
     void WriteFile(const char* filename);
 };

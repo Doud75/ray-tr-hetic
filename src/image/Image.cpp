@@ -1,17 +1,15 @@
 #include <iostream>
 #include <cmath>
-#include <stdexcept>
-#include <tuple>
-#include "image/Image.hpp"
+#include "../image/Image.hpp"
 #include "lodepng.h"
 
 Image::Image(unsigned int w, unsigned int h) : width(w), height(h)
 {
-    ColorTuple black = std::make_tuple(0.0f, 0.0f, 0.0f);
+    Color black(0.0f, 0.0f, 0.0f);
     buffer.assign(width * height, black);
 }
 
-Image::Image(unsigned int w, unsigned int h, ColorTuple c) : width(w), height(h)
+Image::Image(unsigned int w, unsigned int h, Color c) : width(w), height(h)
 {
     buffer.assign(width * height, c);
 }
@@ -20,14 +18,14 @@ Image::~Image()
 {
 }
 
-void Image::SetPixel(unsigned int x, unsigned int y, ColorTuple color) {
+void Image::SetPixel(unsigned int x, unsigned int y, const Color& color) {
     unsigned int index = (y * width) + x;
 
     if (index >= buffer.size()) { throw std::invalid_argument("Image: Invalid index"); }
     buffer[index] = color;
 }
 
-ColorTuple Image::GetPixel(unsigned int x, unsigned int y) {
+Color Image::GetPixel(unsigned int x, unsigned int y) const {
     unsigned int index = (y * width) + x;
 
     if (index >= buffer.size()) { throw std::invalid_argument("Image: Invalid index"); }
@@ -39,12 +37,13 @@ void Image::WriteFile(const char * filename) {
     image.resize(width * height * 4);
 
     for(unsigned index = 0; index < buffer.size(); index++) {
-        ColorTuple pixel = buffer[index];
+        Color pixel = buffer[index];
         int offset = index * 4;
 
-        image[offset]     = static_cast<unsigned char>(floor(std::get<0>(pixel) * 255));
-        image[offset + 1] = static_cast<unsigned char>(floor(std::get<1>(pixel) * 255));
-        image[offset + 2] = static_cast<unsigned char>(floor(std::get<2>(pixel) * 255));
+        image[offset] = (unsigned int)floor(pixel.R() * 255); 
+        image[offset + 1] = (unsigned int)floor(pixel.G() * 255); 
+        image[offset + 2] = (unsigned int)floor(pixel.B() * 255); 
+        image[offset + 2] = static_cast<unsigned char>(std::floor(pixel.B() * 255));
         image[offset + 3] = 255;
     }
 

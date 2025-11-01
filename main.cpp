@@ -1,5 +1,4 @@
-#include <iostream>
-#include <tuple>
+#include "raymath/Color.hpp"
 #include "image/Image.hpp"
 
 int main()
@@ -15,9 +14,7 @@ int main()
             auto g = static_cast<float>(j) / (image_height - 1);
             auto b = 0.2f;
 
-            ColorTuple pixel_color = std::make_tuple(r, g, b);
-
-            image.SetPixel(i, j, pixel_color);
+            image.SetPixel(i, j, Color(r, g, b));
         }
     }
 
