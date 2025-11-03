@@ -1,13 +1,10 @@
 #include "../../include/utils/RenderMetrics.hpp"
 #include <sstream>
 #include <iomanip>
-#include <algorithm>
-#include <cmath>
 
 RenderMetrics::RenderMetrics()
     : imageWidth(0), imageHeight(0), imageBufferSize(0),
       peakMemoryUsage(0), outputFileSize(0),
-      totalPixelComputationTime(0.0),
       renderStarted(false), renderCompleted(false)
 {
 }
@@ -50,20 +47,6 @@ void RenderMetrics::StopRenderingLoop()
     }
 }
 
-void RenderMetrics::StartPixelComputation()
-{
-    pixelComputationTimer.Start();
-}
-
-void RenderMetrics::StopPixelComputation()
-{
-    pixelComputationTimer.Stop();
-    double elapsed = pixelComputationTimer.GetElapsedMs();
-    pixelComputationTimes.push_back(elapsed);
-    totalPixelComputationTime += elapsed;
-    pixelComputationTimer.Reset();
-}
-
 void RenderMetrics::StartFileWrite()
 {
     fileWriteTimer.Start();
@@ -100,17 +83,6 @@ double RenderMetrics::CalculatePixelsPerSecond(
     return static_cast<double>(pixelCount) / totalSeconds;
 }
 
-double RenderMetrics::CalculateAverageTimePerPixel(
-    double totalSeconds, unsigned int pixelCount) const
-{
-    if (pixelCount == 0)
-    {
-        return 0.0;
-    }
-    double totalMicroseconds = totalSeconds * 1000000.0;
-    return totalMicroseconds / static_cast<double>(pixelCount);
-}
-
 std::string RenderMetrics::FormatNumber(unsigned long long number) const
 {
     std::stringstream ss;
@@ -142,9 +114,7 @@ std::string RenderMetrics::GenerateReport() const
 
     unsigned int totalPixels = imageWidth * imageHeight;
     double totalRenderMs = GetTotalRenderTimeMs();
-    double totalRenderSec = totalRenderMs / 1000.0;
     double pixelsPerSec = GetPixelsPerSecond();
-    double avgTimePerPixel = GetAverageTimePerPixelUs();
     double loopTimeMs = renderingLoopTimer.GetElapsedMs();
     double fileWriteMs = fileWriteTimer.GetElapsedMs();
 
@@ -159,8 +129,6 @@ std::string RenderMetrics::GenerateReport() const
            << std::setw(10) << FormatDouble(totalRenderMs) << " ms" << std::endl;
     report << "  Rendering Loop Time:     " 
            << std::setw(10) << FormatDouble(loopTimeMs) << " ms" << std::endl;
-    report << "  Pixel Computation:       " 
-           << std::setw(10) << FormatDouble(totalPixelComputationTime) << " ms" << std::endl;
     report << "  File Write Time:         " 
            << std::setw(10) << FormatDouble(fileWriteMs) << " ms" << std::endl;
     report << "----------------------------------------" << std::endl;
@@ -168,8 +136,6 @@ std::string RenderMetrics::GenerateReport() const
     report << "  Pixels per Second:       " 
            << std::setw(10) << FormatNumber(static_cast<unsigned long long>(pixelsPerSec)) 
            << " pps" << std::endl;
-    report << "  Average Time per Pixel:  " 
-           << std::setw(10) << FormatDouble(avgTimePerPixel, 3) << " μs" << std::endl;
     report << "----------------------------------------" << std::endl;
     report << "Memory:" << std::endl;
     report << "  Image Buffer Size:       " 
@@ -198,13 +164,6 @@ double RenderMetrics::GetPixelsPerSecond() const
     unsigned int totalPixels = imageWidth * imageHeight;
     double totalSeconds = GetTotalRenderTimeMs() / 1000.0;
     return CalculatePixelsPerSecond(totalSeconds, totalPixels);
-}
-
-double RenderMetrics::GetAverageTimePerPixelUs() const
-{
-    unsigned int totalPixels = imageWidth * imageHeight;
-    double totalSeconds = totalPixelComputationTime / 1000.0;
-    return CalculateAverageTimePerPixel(totalSeconds, totalPixels);
 }
 
 
