@@ -8,7 +8,7 @@ int main()
 {
     Logger logger(Logger::Level::INFO);
     RenderMetrics metrics;
-    
+
     logger.Info("Starting raytracer...");
 
     const int image_width = 512;
@@ -17,7 +17,7 @@ int main()
     metrics.StartRender(image_width, image_height);
 
     Image image(image_width, image_height);
-    
+
     size_t bufferSize = image_width * image_height * sizeof(Color);
     metrics.RecordImageBufferSize(bufferSize);
 
@@ -36,7 +36,7 @@ int main()
     metrics.StopRenderingLoop();
 
     const char* filename = "output_gradient.png";
-    
+
     metrics.StartFileWrite();
     image.WriteFile(filename);
     metrics.StopFileWrite();
