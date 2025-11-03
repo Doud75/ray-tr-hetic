@@ -12,6 +12,7 @@ add_subdirectory(lib/lodepng)
 add_subdirectory(src/image)
 add_subdirectory(src/raymath)
 add_subdirectory(src/utils)
+add_subdirectory(src/scene)
 
 
 target_include_directories(raytrhetic PUBLIC
@@ -19,4 +20,4 @@ target_include_directories(raytrhetic PUBLIC
 )
 
 
-target_link_libraries(raytrhetic PUBLIC image utils)
+target_link_libraries(raytrhetic PUBLIC image utils scene raymath)

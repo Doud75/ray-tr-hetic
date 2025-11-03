@@ -44,6 +44,11 @@ Color& Color::operator=(Color const& col) {
   return *this;
 }
 
+Color Color::operator*(float t) const
+{
+  return Color(r * t, g * t, b * t);
+}
+
 std::ostream & operator<<(std::ostream & _stream, Color const & col) {  
   return _stream << "(" << col.r << "," << col.g << "," << col.b << ")";
 }
