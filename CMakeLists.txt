@@ -7,16 +7,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_executable(raytrhetic main.cpp)
 
-#[[there is cMakeList in those directories]]
 add_subdirectory(lib/lodepng)
 add_subdirectory(src/image)
 add_subdirectory(src/raymath)
 add_subdirectory(src/utils)
-
+add_subdirectory(src/shapes)      # <--- AJOUT
 
 target_include_directories(raytrhetic PUBLIC
-        "${PROJECT_SOURCE_DIR}/include"
+    "${PROJECT_SOURCE_DIR}/include"
 )
 
-
-target_link_libraries(raytrhetic PUBLIC image utils)
+# Link : ajoute geometry (et raymath si besoin)
+target_link_libraries(raytrhetic PUBLIC image utils shapes raymath)
