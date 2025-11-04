@@ -20,9 +20,9 @@ int main()
     scene.add(std::make_shared<Plane>(-0.5f, 0.5f));
     scene.add(std::make_shared<Sphere>(Vector(0.0f, 0.0f, -9.0f), 0.5f));
     scene.add(std::make_shared<Sphere>(Vector(-2.0f, 0.0f, -6.0f), 0.5f));
-    scene.add(std::make_shared<Sphere>(Vector(1.0f, 0.5f, -5.0f), 0.5f));
+    scene.add(std::make_shared<Sphere>(Vector(1.0f, 0.0f, -5.0f), 0.5f));
     Image image(image_width, image_height);
-    Camera cam(image_width, image_height, 90.0f);
+    Camera cam(image_width, image_height, 45.0f);
 
     metrics.StartRender(image_width, image_height);
 
