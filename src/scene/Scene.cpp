@@ -17,11 +17,32 @@ Color Scene::get_background_color(const Ray& r) const {
 Color Scene::ray_color(const Ray& r) const {
     hit_record rec;
 
-    for (const auto& object : objects) {
-        if (object->hit(r, 0.001f, 1e30f, rec)) {
-            return Color(1.0f, 0.0f, 0.0f);
-        }
+    if (hit_anything(r, 0.001f, 1e30f, rec)) {
+        Vector N = rec.normal;
+        return Color(
+            0.5f * (N.X() + 1.0f),
+            0.5f * (N.Y() + 1.0f),
+            0.5f * (N.Z() + 1.0f)
+        );
     }
 
     return get_background_color(r);
+}
+
+
+
+bool Scene::hit_anything(const Ray& r, float t_min, float t_max, hit_record& rec) const {
+    hit_record temp_rec;
+    bool hit_anything = false;
+    float closest_so_far = t_max;
+
+    for (const auto& object : objects) {
+        if (object->hit(r, t_min, closest_so_far, temp_rec)) {
+            hit_anything = true;
+            closest_so_far = temp_rec.t;
+            rec = temp_rec;
+        }
+    }
+
+    return hit_anything;
 }

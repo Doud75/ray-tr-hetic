@@ -15,4 +15,6 @@ public:
 private:
     std::vector<std::shared_ptr<Hittable>> objects;
     Color get_background_color(const Ray& r) const;
+
+    bool hit_anything(const Ray& r, float t_min, float t_max, hit_record& rec) const;
 };
