@@ -5,7 +5,7 @@
 
 class Camera {
 public:
-    Camera(int image_width, int image_height);
+    Camera(int image_width, int image_height, float vertical_fov_degrees = 90.0f);
 
     void render(const Scene& scene, Image& image);
 
