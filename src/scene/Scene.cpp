@@ -14,8 +14,13 @@ Color Scene::get_background_color(const Ray& r) const {
     return start_color * (1.0f - a) + end_color * a;
 }
 
-Color Scene::ray_color(const Ray& r) const {
+Color Scene::ray_color(const Ray& r, int bounce) const {
     hit_record rec;
+
+    if (bounce <= 0)
+    {
+        return Color(0, 0, 0);
+    }
 
     if (hit_anything(r, 0.001f, 1e30f, rec)) {
         Vector N = rec.normal;
