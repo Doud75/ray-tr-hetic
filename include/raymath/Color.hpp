@@ -19,5 +19,7 @@ public:
 
   Color operator+(Color const& col);
   Color& operator=(Color const& col);
+  Color operator*(float t) const;
+
   friend std::ostream & operator<<(std::ostream & _stream, Color const & col);
 };

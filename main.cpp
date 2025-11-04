@@ -1,5 +1,6 @@
-#include "raymath/Color.hpp"
 #include "image/Image.hpp"
+#include "scene/Camera.hpp"
+#include "scene/Scene.hpp"
 #include "utils/RenderMetrics.hpp"
 #include "utils/Logger.hpp"
 #include <fstream>
@@ -8,34 +9,27 @@ int main()
 {
     Logger logger(Logger::Level::INFO);
     RenderMetrics metrics;
-
     logger.Info("Starting raytracer...");
 
-    const int image_width = 512;
-    const int image_height = 512;
+    const int image_width = 1920;
+    const int image_height = 1080;
+
+    Scene scene;
+    Image image(image_width, image_height);
+    Camera cam(image_width, image_height);
 
     metrics.StartRender(image_width, image_height);
-
-    Image image(image_width, image_height);
 
     size_t bufferSize = image_width * image_height * sizeof(Color);
     metrics.RecordImageBufferSize(bufferSize);
 
     metrics.StartRenderingLoop();
 
-    for (int j = 0; j < image_height; ++j) {
-        for (int i = 0; i < image_width; ++i) {
-            auto r = static_cast<float>(i) / (image_width - 1);
-            auto g = static_cast<float>(j) / (image_height - 1);
-            auto b = 0.2f;
-
-            image.SetPixel(i, j, Color(r, g, b));
-        }
-    }
+    cam.render(scene, image);
 
     metrics.StopRenderingLoop();
 
-    const char* filename = "output_gradient.png";
+    const char* filename = "output.png";
 
     metrics.StartFileWrite();
     image.WriteFile(filename);
