@@ -1,4 +1,4 @@
-#include "../../include/utils/PerformanceTimer.hpp"
+#include "PerformanceTimer.hpp"
 
 PerformanceTimer::PerformanceTimer()
     : isRunning(false), hasStopped(false)

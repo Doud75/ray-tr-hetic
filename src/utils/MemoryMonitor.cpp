@@ -1,14 +1,14 @@
-#include "../../include/utils/MemoryMonitor.hpp"
+#include "MemoryMonitor.hpp"
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
 
 #ifdef _WIN32
-#include <windows.h>
-#include <psapi.h>
+    #include <windows.h>
+    #include <psapi.h>
 #elif defined(__linux__) || defined(__APPLE__)
-#include <unistd.h>
-#include <sys/resource.h>
+    #include <unistd.h>
+    #include <sys/resource.h>
 #endif
 
 size_t MemoryMonitor::GetCurrentMemoryUsage()
