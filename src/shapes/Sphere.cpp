@@ -1,9 +1,8 @@
 #include "Sphere.hpp"
-#include "Color.hpp"
 #include <cmath>
 
-Sphere::Sphere(const Vector& center, float r)
-    : center(center), radius(r) {}
+Sphere::Sphere(const Vector& center, float r, std::shared_ptr<Material> mat)
+    : center(center), radius(r), material(mat) {}
 
 bool Sphere::hit(const Ray& ray, float t_min, float t_max, hit_record& rec) const {
     const Vector oc = ray.Origin() - center;
@@ -30,7 +29,7 @@ bool Sphere::hit(const Ray& ray, float t_min, float t_max, hit_record& rec) cons
     rec.point = ray.at(rec.t);
     Vector outward_normal = (rec.point - center) / radius;
     rec.set_face_normal(ray, outward_normal);
-    rec.color = Color(1.0f, 0.0f, 0.0f);
+    rec.material = material;
 
     return true;
 }

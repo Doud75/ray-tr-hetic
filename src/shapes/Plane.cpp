@@ -1,9 +1,14 @@
 #include "Plane.hpp"
-#include "Color.hpp"
 #include <cmath>
 
-Plane::Plane(float y, float scale) 
-    : y_position(y), checker_scale(scale) {}
+Plane::Plane(float y, 
+             std::shared_ptr<Material> mat1, 
+             std::shared_ptr<Material> mat2,
+             float scale) 
+    : y_position(y), 
+      material1(mat1), 
+      material2(mat2),
+      checker_scale(scale) {}
 
 bool Plane::hit(const Ray& ray, 
                 float t_min, 
@@ -28,9 +33,9 @@ bool Plane::hit(const Ray& ray,
     rec.set_face_normal(ray, outward_normal);
 
     if (isWhiteSquare(rec.point.X(), rec.point.Z())) {
-        rec.color = Color(0.9f, 0.9f, 0.9f);
+        rec.material = material1;
     } else {
-        rec.color = Color(0.2f, 0.2f, 0.2f);
+        rec.material = material2;
     }
 
     return true;

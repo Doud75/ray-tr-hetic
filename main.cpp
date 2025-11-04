@@ -3,6 +3,8 @@
 #include "scene/Scene.hpp"
 #include "shapes/Sphere.hpp"
 #include "shapes/Plane.hpp"
+#include "materials/Lambertian.hpp"
+#include "materials/Metal.hpp"
 #include "utils/RenderMetrics.hpp"
 #include "utils/Logger.hpp"
 #include <fstream>
@@ -16,9 +18,21 @@ int main()
     const int image_width = 1920;
     const int image_height = 1080;
 
+    auto red_matte = std::make_shared<Lambertian>(Color(1.0f, 0.0f, 0.0f));
+    auto blue_mirror = std::make_shared<Metal>(Color(0.7f, 0.8f, 1.0f), 0.0f);
+    auto green_matte = std::make_shared<Lambertian>(Color(0.2f, 0.8f, 0.3f));
+    auto gold_mirror = std::make_shared<Metal>(Color(1.0f, 0.84f, 0.0f), 0.1f);
+    auto purple_matte = std::make_shared<Lambertian>(Color(0.7f, 0.2f, 0.8f));
+    auto white_material = std::make_shared<Lambertian>(Color(0.9f, 0.9f, 0.9f));
+    auto dark_material = std::make_shared<Lambertian>(Color(0.2f, 0.2f, 0.2f));
+
     Scene scene;
-    scene.add(std::make_shared<Sphere>(Vector(0.5f, 0.0f, -1.0f), 0.5f));
-    scene.add(std::make_shared<Plane>(-0.5f, 0.5f));
+    scene.add(std::make_shared<Sphere>(Vector(-1.0f, -1.0f, -1.0f), 0.5f, red_matte));
+    scene.add(std::make_shared<Sphere>(Vector(1.2f, 0.0f, -1.2f), 0.4f, blue_mirror));
+    scene.add(std::make_shared<Sphere>(Vector(-1.0f, 0.0f, -0.8f), 0.3f, green_matte));
+    scene.add(std::make_shared<Sphere>(Vector(0.5f, 0.5f, -1.5f), 0.35f, gold_mirror));
+    scene.add(std::make_shared<Sphere>(Vector(-0.6f, -0.2f, -1.3f), 0.25f, purple_matte));
+    scene.add(std::make_shared<Plane>(-0.5f, white_material, dark_material, 0.5f));
     Image image(image_width, image_height);
     Camera cam(image_width, image_height);
 

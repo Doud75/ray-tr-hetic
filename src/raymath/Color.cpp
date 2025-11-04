@@ -30,11 +30,19 @@ float Color::B()
 }
 
 Color Color::operator+(Color const& col) {
+  // For accumulation during sampling, don't clamp yet
   Color c;
-  c.r = fmax(fmin(r + col.r, 1), 0);
-  c.g = fmax(fmin(g + col.g, 1), 0);
-  c.b = fmax(fmin(b + col.b, 1), 0);
+  c.r = r + col.r;
+  c.g = g + col.g;
+  c.b = b + col.b;
   return c;
+}
+
+Color& Color::operator+=(Color const& col) {
+  r += col.r;
+  g += col.g;
+  b += col.b;
+  return *this;
 }
 
 Color& Color::operator=(Color const& col) {
@@ -47,6 +55,12 @@ Color& Color::operator=(Color const& col) {
 Color Color::operator*(float t) const
 {
   return Color(r * t, g * t, b * t);
+}
+
+Color Color::operator/(float t) const
+{
+  // Division for averaging samples
+  return Color(r / t, g / t, b / t);
 }
 
 std::ostream & operator<<(std::ostream & _stream, Color const & col) {  

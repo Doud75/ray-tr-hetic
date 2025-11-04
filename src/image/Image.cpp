@@ -40,10 +40,14 @@ void Image::WriteFile(const char * filename) {
         Color pixel = buffer[index];
         int offset = index * 4;
 
-        image[offset] = (unsigned int)floor(pixel.R() * 255); 
-        image[offset + 1] = (unsigned int)floor(pixel.G() * 255); 
-        image[offset + 2] = (unsigned int)floor(pixel.B() * 255); 
-        image[offset + 2] = static_cast<unsigned char>(std::floor(pixel.B() * 255));
+        // Clamp color values to [0, 1] before converting to byte
+        float r = std::fmin(std::fmax(pixel.R(), 0.0f), 1.0f);
+        float g = std::fmin(std::fmax(pixel.G(), 0.0f), 1.0f);
+        float b = std::fmin(std::fmax(pixel.B(), 0.0f), 1.0f);
+
+        image[offset] = static_cast<unsigned char>(r * 255.999f);
+        image[offset + 1] = static_cast<unsigned char>(g * 255.999f);
+        image[offset + 2] = static_cast<unsigned char>(b * 255.999f);
         image[offset + 3] = 255;
     }
 

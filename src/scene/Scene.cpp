@@ -1,4 +1,5 @@
 #include "Scene.hpp"
+#include "../materials/Material.hpp"
 
 Scene::Scene() {}
 
@@ -14,7 +15,11 @@ Color Scene::get_background_color(const Ray& r) const {
     return start_color * (1.0f - a) + end_color * a;
 }
 
-Color Scene::ray_color(const Ray& r) const {
+Color Scene::ray_color(const Ray& r, int depth) const {
+    if (depth <= 0) {
+        return Color(0.0f, 0.0f, 0.0f);
+    }
+
     hit_record rec;
     hit_record closest_rec;
     float closest_t = 1e30f;
@@ -28,8 +33,18 @@ Color Scene::ray_color(const Ray& r) const {
         }
     }
 
-    if (hit_anything) {
-        return closest_rec.color;
+    if (hit_anything && closest_rec.material) {
+        Ray scattered;
+        Color attenuation;
+        if (closest_rec.material->scatter(r, closest_rec, attenuation, scattered)) {
+            Color scattered_color = ray_color(scattered, depth - 1);
+            return Color(
+                attenuation.R() * scattered_color.R(),
+                attenuation.G() * scattered_color.G(),
+                attenuation.B() * scattered_color.B()
+            );
+        }
+        return Color(0.0f, 0.0f, 0.0f);
     }
 
     return get_background_color(r);
