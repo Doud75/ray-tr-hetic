@@ -1,4 +1,5 @@
 #include "Sphere.hpp"
+#include "Color.hpp"
 #include <cmath>
 
 Sphere::Sphere(const Vector& center, float r)
@@ -29,6 +30,7 @@ bool Sphere::hit(const Ray& ray, float t_min, float t_max, hit_record& rec) cons
     rec.point = ray.at(rec.t);
     Vector outward_normal = (rec.point - center) / radius;
     rec.set_face_normal(ray, outward_normal);
+    rec.color = Color(1.0f, 0.0f, 0.0f);
 
     return true;
 }

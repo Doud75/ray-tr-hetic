@@ -16,11 +16,20 @@ Color Scene::get_background_color(const Ray& r) const {
 
 Color Scene::ray_color(const Ray& r) const {
     hit_record rec;
+    hit_record closest_rec;
+    float closest_t = 1e30f;
+    bool hit_anything = false;
 
     for (const auto& object : objects) {
-        if (object->hit(r, 0.001f, 1e30f, rec)) {
-            return Color(1.0f, 0.0f, 0.0f);
+        if (object->hit(r, 0.001f, closest_t, rec)) {
+            hit_anything = true;
+            closest_t = rec.t;
+            closest_rec = rec;
         }
+    }
+
+    if (hit_anything) {
+        return closest_rec.color;
     }
 
     return get_background_color(r);
