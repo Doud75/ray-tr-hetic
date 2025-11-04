@@ -44,5 +44,9 @@ bool Scene::hit_anything(const Ray& r, float t_min, float t_max, hit_record& rec
         }
     }
 
+    if (hit_anything) {
+        return closest_rec.color;
+    }
+
     return hit_anything;
 }
