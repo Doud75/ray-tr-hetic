@@ -26,13 +26,14 @@ Camera::Camera(int width, int height, float vertical_fov_degrees)
 }
 
 void Camera::render(const Scene& scene, Image& image) {
+    const int max_bounce = 10;
     for (int j = 0; j < image_height; ++j) {
         for (int i = 0; i < image_width; ++i) {
             const Vector pixel_center = pixel00_loc + (pixel_delta_u * i) + (pixel_delta_v * j);
             const Vector ray_direction = pixel_center - camera_center;
             Ray r(camera_center, ray_direction);
 
-            Color pixel_color = scene.ray_color(r);
+            Color pixel_color = scene.ray_color(r, max_bounce);
 
             image.SetPixel(i, j, pixel_color);
         }

@@ -10,7 +10,7 @@ class Scene {
 public:
     Scene();
     void add(std::shared_ptr<Hittable> object);
-    Color ray_color(const Ray& r) const;
+    Color ray_color(const Ray& r, int bounce) const;
 
 private:
     std::vector<std::shared_ptr<Hittable>> objects;
