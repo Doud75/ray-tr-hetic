@@ -2,6 +2,7 @@
 #include "scene/Camera.hpp"
 #include "scene/Scene.hpp"
 #include "shapes/Sphere.hpp"
+#include "shapes/Plane.hpp"
 #include "utils/RenderMetrics.hpp"
 #include "utils/Logger.hpp"
 #include <fstream>
@@ -16,7 +17,8 @@ int main()
     const int image_height = 1080;
 
     Scene scene;
-    scene.add(std::make_shared<Sphere>(Vector(0.0f, 0.0f, -1.0f), 0.5f));
+    scene.add(std::make_shared<Sphere>(Vector(0.5f, 0.0f, -1.0f), 0.5f));
+    scene.add(std::make_shared<Plane>(-0.5f, 0.5f));
     Image image(image_width, image_height);
     Camera cam(image_width, image_height);
 
