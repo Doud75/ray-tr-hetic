@@ -28,7 +28,7 @@ void Camera::render(const Scene& scene, Image& image) {
             const Vector ray_direction = pixel_center - camera_center;
             Ray r(camera_center, ray_direction);
 
-            Color pixel_color = scene.get_background_color(r);
+            Color pixel_color = scene.ray_color(r);
 
             image.SetPixel(i, j, pixel_color);
         }
