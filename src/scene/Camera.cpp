@@ -1,15 +1,19 @@
 #include "Camera.hpp"
+#include <cmath>
 
-Camera::Camera(int width, int height)
+Camera::Camera(int width, int height, float vertical_fov_degrees)
     : image_width(width), image_height(height)
 {
     const float aspect_ratio = (float)image_width / image_height;
-
-    const float viewport_height = 2.0f;
-    const float viewport_width = viewport_height * aspect_ratio;
     const float focal_length = 1.0f;
 
-    camera_center = Vector(0.0f, 0.0f, 0.0f);
+    const float theta = vertical_fov_degrees * (M_PI / 180.0f);
+
+    const float h = tan(theta / 2.0f);
+    const float viewport_height = 2.0f * h * focal_length;
+    const float viewport_width = viewport_height * aspect_ratio;
+
+    camera_center = Vector(0.0f, 0.0f, -1.0f);
 
     const Vector viewport_u(viewport_width, 0, 0);
     const Vector viewport_v(0, -viewport_height, 0);

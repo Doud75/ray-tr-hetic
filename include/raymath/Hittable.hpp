@@ -2,12 +2,14 @@
 
 #include "Vector.hpp"
 #include "Ray.hpp"
+#include "Color.hpp"
 
 struct hit_record {
     Vector point;
     Vector normal;
     float t;
     bool front_face;
+    Color color;
     
     void set_face_normal(const Ray& ray, const Vector& outward_normal);
 };
