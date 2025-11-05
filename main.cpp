@@ -31,10 +31,11 @@ int main()
     scene.add(std::make_shared<Sphere>(Vector(-2.0f, 0.0f, -6.0f), 0.5f, material_left));
     scene.add(std::make_shared<Sphere>(Vector(1.0f, 0.0f, -5.0f), 0.5f, material_right));
     scene.add(std::make_shared<Cube>(
-    Vector(2.5f - 0.75f,  0.5f,  -7.0f - 0.75f),
-    Vector(2.5f + 0.75f,  1.5f,  -7.0f + 0.75f)
+    Vector(-0.90f - 0.35f, -0.5f, -7.0f - 0.35f),   // min (x,y,z)
+    Vector(-0.90f + 0.35f,  0.2f, -7.0f + 0.35f)    // max (x,y,z)
     ));
 
+    
     Image image(image_width, image_height);
     Camera cam(image_width, image_height, samples_per_pixel, 45.0f);
 
