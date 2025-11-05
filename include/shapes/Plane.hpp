@@ -13,10 +13,7 @@ public:
              float t_max, 
              hit_record& rec) const override;
 
-    bool isWhiteSquare(float x, float z) const;
-
 private:
     float y_position;
-    float checker_scale;
 };
 
