@@ -6,7 +6,7 @@
 
 class Sphere : public Hittable {
 public:
-    Sphere(const Vector& center, float radius), std::shared_ptr<Material> m;
+    Sphere(const Vector& center, float radius, std::shared_ptr<Material> m);
 
     bool hit(const Ray& ray, float t_min, float t_max, hit_record& rec) const override;
 

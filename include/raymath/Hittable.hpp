@@ -3,7 +3,7 @@
 #include "Vector.hpp"
 #include "Ray.hpp"
 #include "Color.hpp"
-#include <memorys>
+#include <memory>
 
 class Material; 
 
