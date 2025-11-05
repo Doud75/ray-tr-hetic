@@ -25,3 +25,11 @@ inline Vector random_in_unit_sphere() {
 inline Vector random_unit_vector() {
     return random_in_unit_sphere().normalized();
 }
+
+
+inline Vector reflect(const Vector& v, const Vector& n) {
+    return v - n * (2 * v.dot(n));
+
+
+}
+

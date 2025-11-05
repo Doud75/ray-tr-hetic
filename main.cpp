@@ -7,6 +7,7 @@
 #include "utils/RenderMetrics.hpp"
 #include "utils/Logger.hpp"
 #include "materials/Lambertian.hpp"
+#include "materials/Metal.hpp"
 #include <fstream>
 
 int main()
@@ -24,12 +25,14 @@ int main()
     auto material_left = std::make_shared<Lambertian>(Color(0.8, 0.8, 0.8));
     auto material_right = std::make_shared<Lambertian>(Color(0.8, 0.6, 0.2));
     auto material_cube = std::make_shared<Lambertian>(Color(0.2, 0.8, 0.3));
+    auto shiny = std::make_shared<Metal>(Color(0.8, 0.6, 0.2), 0.0f);  
+    auto rough = std::make_shared<Metal>(Color(0.8, 0.8, 0.8), 0.5f);  
 
     Scene scene;
     scene.add(std::make_shared<Plane>(-0.5f, material_ground));
 
-    scene.add(std::make_shared<Sphere>(Vector(0.0f, 0.0f, -9.0f), 0.5f, material_center));
-    scene.add(std::make_shared<Sphere>(Vector(-2.0f, 0.0f, -6.0f), 0.5f, material_left));
+    scene.add(std::make_shared<Sphere>(Vector(0.0f, 0.0f, -9.0f), 0.5f, shiny));
+    scene.add(std::make_shared<Sphere>(Vector(-2.0f, 0.0f, -6.0f), 0.5f, rough));
     scene.add(std::make_shared<Sphere>(Vector(1.0f, 0.0f, -5.0f), 0.5f, material_right));
     scene.add(std::make_shared<Cube>(
         Vector(-0.90f - 0.35f, -0.5f, -7.0f - 0.35f),
