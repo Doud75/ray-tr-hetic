@@ -3,6 +3,7 @@
 #include "scene/Scene.hpp"
 #include "shapes/Sphere.hpp"
 #include "shapes/Plane.hpp"
+#include "shapes/Cube.hpp"
 #include "utils/RenderMetrics.hpp"
 #include "utils/Logger.hpp"
 #include "materials/Lambertian.hpp"
