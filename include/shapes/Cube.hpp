@@ -10,6 +10,6 @@ public:
     bool hit(const Ray& ray, float t_min, float t_max, hit_record& rec) const override;
 
 private:
-    Vector minCorner;  // coin minimal (x-, y-, z-)
-    Vector maxCorner;  // coin maximal (x+, y+, z+)
+    Vector minCorner;  
+    Vector maxCorner;  
 };
