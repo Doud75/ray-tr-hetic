@@ -5,13 +5,14 @@
 
 class Camera {
 public:
-    Camera(int image_width, int image_height, float vertical_fov_degrees = 90.0f);
+    Camera(int image_width, int image_height, int samples_per_pixel, float vertical_fov_degrees = 90.0f);
 
     void render(const Scene& scene, Image& image);
 
 private:
     int image_width;
     int image_height;
+    int samples_per_pixel;
 
     Vector camera_center;
     Vector pixel00_loc;
