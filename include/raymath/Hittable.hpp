@@ -3,6 +3,7 @@
 #include "Vector.hpp"
 #include "Ray.hpp"
 #include "Color.hpp"
+#include <memorys>
 
 class Material; 
 
@@ -11,8 +12,7 @@ struct hit_record {
     Vector normal;
     float t;
     bool front_face;
-    std::shared_ptr<Material> mat; // pointeur vers le materiau (plus besoin de définir la couleur ici
-    //  chaque matériau aura ça couleur grace à scatter
+    std::shared_ptr<Material> mat; 
     
 
     void set_face_normal(const Ray& ray, const Vector& outward_normal);
