@@ -7,6 +7,8 @@
 #include "utils/RenderMetrics.hpp"
 #include "utils/Logger.hpp"
 #include "materials/Lambertian.hpp"
+#include "materials/CheckerBoard.hpp"
+#include "materials/SideColorMaterial.hpp"
 #include "materials/Metal.hpp"
 #include <fstream>
 
@@ -20,13 +22,20 @@ int main()
     const int image_height = 1080;
     const int samples_per_pixel = 4;
 
-    auto material_ground = std::make_shared<Lambertian>(Color(0.94, 0.53, 0.26));
+    auto material_ground = std::make_shared<CheckerMaterial>(
+        Color(0.1, 0.3, 0.1),
+        Color(0.9, 0.9, 0.9),
+        2.0f
+    );
     auto material_center = std::make_shared<Lambertian>(Color(0.94, 0.53, 0.26));
     auto material_left = std::make_shared<Lambertian>(Color(0.8, 0.8, 0.8));
     auto material_right = std::make_shared<Lambertian>(Color(0.8, 0.6, 0.2));
-    auto material_cube = std::make_shared<Lambertian>(Color(0.2, 0.8, 0.3));
-    auto shiny = std::make_shared<Metal>(Color(0.8, 0.6, 0.2), 0.0f);  
-    auto rough = std::make_shared<Metal>(Color(0.8, 0.8, 0.8), 0.5f);  
+    auto material_cube = std::make_shared<SideColorMaterial>(
+        Color(0.9, 0.2, 0.2),
+        Color(0.2, 0.2, 0.9)
+    );
+    auto shiny = std::make_shared<Metal>(Color(0.8, 0.6, 0.2), 0.0f);
+    auto rough = std::make_shared<Metal>(Color(0.8, 0.8, 0.8), 0.5f);
 
     Scene scene;
     scene.add(std::make_shared<Plane>(-0.5f, material_ground));
@@ -35,8 +44,8 @@ int main()
     scene.add(std::make_shared<Sphere>(Vector(-2.0f, 0.0f, -6.0f), 0.5f, rough));
     scene.add(std::make_shared<Sphere>(Vector(1.0f, 0.0f, -5.0f), 0.5f, material_right));
     scene.add(std::make_shared<Cube>(
-        Vector(-0.90f - 0.35f, -0.5f, -7.0f - 0.35f),
-        Vector(-0.90f + 0.35f,  0.2f, -7.0f + 0.35f),
+        Vector(-3.90f - 0.35f, -0.5f, -7.0f - 0.35f),
+        Vector(-3.90f + 0.35f,  0.2f, -7.0f + 0.35f),
         material_cube
     ));
 
