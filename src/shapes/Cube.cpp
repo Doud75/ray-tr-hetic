@@ -3,8 +3,8 @@
 #include <algorithm>
 #include <limits>
 
-Cube::Cube(const Vector& minCorner, const Vector& maxCorner)
-    : minCorner(minCorner), maxCorner(maxCorner) {}
+Cube::Cube(const Vector& minCorner, const Vector& maxCorner, std::shared_ptr<Material> m)
+    : minCorner(minCorner), maxCorner(maxCorner), mat(m) {}
 
 bool Cube::hit(const Ray& ray, float t_min, float t_max, hit_record& rec) const {
   
@@ -51,5 +51,6 @@ bool Cube::hit(const Ray& ray, float t_min, float t_max, hit_record& rec) const 
     else if (std::fabs(rec.point.Z() - maxCorner.Z()) < eps) outward_normal = Vector(0, 0, 1);
 
     rec.set_face_normal(ray, outward_normal);
+    rec.mat = mat;
     return true;
 }
