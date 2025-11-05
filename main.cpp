@@ -18,8 +18,8 @@ int main()
     const int image_height = 1080;
     const int samples_per_pixel = 4;
 
-    auto material_ground = std::make_shared<Lambertian>(Color(0.8, 0.8, 0.0));
-    auto material_center = std::make_shared<Lambertian>(Color(0.7, 0.3, 0.3));
+    auto material_ground = std::make_shared<Lambertian>(Color(0.94, 0.53, 0.26));
+    auto material_center = std::make_shared<Lambertian>(Color(0.94, 0.53, 0.26));
     auto material_left = std::make_shared<Lambertian>(Color(0.8, 0.8, 0.8));
     auto material_right = std::make_shared<Lambertian>(Color(0.8, 0.6, 0.2));
 
