@@ -1,4 +1,5 @@
 #include "Scene.hpp"
+#include "Material.hpp"
 
 Scene::Scene() {}
 
@@ -23,12 +24,14 @@ Color Scene::ray_color(const Ray& r, int bounce) const {
     }
 
     if (hit_anything(r, 0.001f, 1e30f, rec)) {
-        Vector N = rec.normal;
-        return Color(
-            0.5f * (N.X() + 1.0f),
-            0.5f * (N.Y() + 1.0f),
-            0.5f * (N.Z() + 1.0f)
-        );
+        Ray scattered;
+        Color attenuation;
+
+        if (rec.mat && rec.mat->scatter(r, rec, attenuation, scattered)) {
+            return attenuation * ray_color(scattered, bounce - 1);
+        }
+
+        return Color(0, 0, 0);
     }
 
     return get_background_color(r);

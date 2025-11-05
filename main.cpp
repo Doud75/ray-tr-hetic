@@ -5,7 +5,7 @@
 #include "shapes/Plane.hpp"
 #include "utils/RenderMetrics.hpp"
 #include "utils/Logger.hpp"
-#include "materials/DummyMaterial.hpp"
+#include "materials/Lambertian.hpp"
 #include <fstream>
 
 int main()
@@ -18,14 +18,18 @@ int main()
     const int image_height = 1080;
     const int samples_per_pixel = 4;
 
-    auto dummy = std::make_shared<DummyMaterial>(); // je déclare le matériau dummy
+    auto material_ground = std::make_shared<Lambertian>(Color(0.8, 0.8, 0.0));
+    auto material_center = std::make_shared<Lambertian>(Color(0.7, 0.3, 0.3));
+    auto material_left = std::make_shared<Lambertian>(Color(0.8, 0.8, 0.8));
+    auto material_right = std::make_shared<Lambertian>(Color(0.8, 0.6, 0.2));
 
     Scene scene;
-    scene.add(std::make_shared<Plane>(-0.5f, 0.5f));
-    scene.add(std::make_shared<Sphere>(Vector(0.0f, 0.0f, -9.0f), 0.5f, dummy));
-    scene.add(std::make_shared<Sphere>(Vector(0.0f, 0.0f, -9.0f), 0.5f, dummy));
-    scene.add(std::make_shared<Sphere>(Vector(-2.0f, 0.0f, -6.0f), 0.5f, dummy));
-    scene.add(std::make_shared<Sphere>(Vector(1.0f, 0.0f, -5.0f), 0.5f, dummy));
+    scene.add(std::make_shared<Plane>(-0.5f, material_ground));
+
+    scene.add(std::make_shared<Sphere>(Vector(0.0f, 0.0f, -9.0f), 0.5f, material_center));
+    scene.add(std::make_shared<Sphere>(Vector(-2.0f, 0.0f, -6.0f), 0.5f, material_left));
+    scene.add(std::make_shared<Sphere>(Vector(1.0f, 0.0f, -5.0f), 0.5f, material_right));
+
     Image image(image_width, image_height);
     Camera cam(image_width, image_height, samples_per_pixel, 45.0f);
 
