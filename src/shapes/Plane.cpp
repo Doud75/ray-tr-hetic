@@ -2,8 +2,8 @@
 #include "Color.hpp"
 #include <cmath>
 
-Plane::Plane(float y, float scale) 
-    : y_position(y) {}
+Plane::Plane(float y, std::shared_ptr<Material> m)
+    : y_position(y), mat(m) {}
 
 bool Plane::hit(const Ray& ray, 
                 float t_min, 
@@ -26,6 +26,7 @@ bool Plane::hit(const Ray& ray,
 
     const Vector outward_normal(0.0f, 1.0f, 0.0f);
     rec.set_face_normal(ray, outward_normal);
+    rec.mat = mat;
 
     return true;
 }

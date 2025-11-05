@@ -3,10 +3,11 @@
 #include "Hittable.hpp"
 #include "Vector.hpp"
 #include "Color.hpp"
+#include <memory>
 
 class Plane : public Hittable {
 public:
-    Plane(float y, float scale = 1.0f);
+    Plane(float y, std::shared_ptr<Material> m);
 
     bool hit(const Ray& ray, 
              float t_min, 
@@ -15,5 +16,6 @@ public:
 
 private:
     float y_position;
+    std::shared_ptr<Material> mat;
 };
 

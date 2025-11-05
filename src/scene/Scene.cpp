@@ -1,4 +1,5 @@
 #include "Scene.hpp"
+#include "Material.hpp"
 
 Scene::Scene() {}
 
@@ -7,11 +8,12 @@ void Scene::add(std::shared_ptr<Hittable> object) {
 }
 
 Color Scene::get_background_color(const Ray& r) const {
-    Vector ray_direction = r.Direction();
+    /*Vector ray_direction = r.Direction();
     float a = 0.5f * (ray_direction.Y() + 1.0f);
     Color start_color = Color(1.0f, 1.0f, 1.0f);
     Color end_color = Color(0.1f, 0.7f, 1.0f);
-    return start_color * (1.0f - a) + end_color * a;
+    return start_color * (1.0f - a) + end_color * a;*/
+    return Color(0.5f, 0.5f, 0.5f);
 }
 
 Color Scene::ray_color(const Ray& r, int bounce) const {
@@ -23,12 +25,14 @@ Color Scene::ray_color(const Ray& r, int bounce) const {
     }
 
     if (hit_anything(r, 0.001f, 1e30f, rec)) {
-        Vector N = rec.normal;
-        return Color(
-            0.5f * (N.X() + 1.0f),
-            0.5f * (N.Y() + 1.0f),
-            0.5f * (N.Z() + 1.0f)
-        );
+        Ray scattered;
+        Color attenuation;
+
+        if (rec.mat && rec.mat->scatter(r, rec, attenuation, scattered)) {
+            return attenuation * ray_color(scattered, bounce - 1);
+        }
+
+        return Color(0, 0, 0);
     }
 
     return get_background_color(r);

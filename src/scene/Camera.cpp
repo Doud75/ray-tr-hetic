@@ -1,13 +1,7 @@
 #include "Camera.hpp"
 #include <cmath>
-#include <random>
+#include "Utils.hpp"
 #include <iostream>
-
-double random_double() {
-    static std::uniform_real_distribution<double> distribution(0.0, 1.0);
-    static std::mt19937 generator;
-    return distribution(generator);
-}
 
 Camera::Camera(int width, int height, int samples, float vertical_fov_degrees)
     : image_width(width), image_height(height), samples_per_pixel(samples)

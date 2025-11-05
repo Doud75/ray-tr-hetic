@@ -2,7 +2,7 @@
 #include <cmath>
 #include "Color.hpp"
 
-Color::Color() : r(0), b(0), g(0)
+Color::Color() : r(0), g(0), b(0)
 {
 }
 
@@ -53,6 +53,10 @@ Color& Color::operator=(Color const& col)
 Color Color::operator*(float t) const
 {
     return Color(r * t, g * t, b * t);
+}
+
+Color Color::operator*(const Color& other) const {
+    return Color(r * other.r, g * other.g, b * other.b);
 }
 
 Color Color::operator/(float t) const
