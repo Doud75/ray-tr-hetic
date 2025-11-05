@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cmath>
 #include "Image.hpp"
 #include "lodepng.h"
 
@@ -36,14 +35,19 @@ void Image::WriteFile(const char * filename) {
     std::vector<unsigned char> image;
     image.resize(width * height * 4);
 
+    auto clamp = [](float x, float min, float max) {
+        if (x < min) return min;
+        if (x > max) return max;
+        return x;
+    };
+
     for(unsigned index = 0; index < buffer.size(); index++) {
         Color pixel = buffer[index];
         int offset = index * 4;
 
-        image[offset] = (unsigned int)floor(pixel.R() * 255); 
-        image[offset + 1] = (unsigned int)floor(pixel.G() * 255); 
-        image[offset + 2] = (unsigned int)floor(pixel.B() * 255); 
-        image[offset + 2] = static_cast<unsigned char>(std::floor(pixel.B() * 255));
+        image[offset]     = static_cast<unsigned char>(255.999 * clamp(pixel.R(), 0.0, 1.0));
+        image[offset + 1] = static_cast<unsigned char>(255.999 * clamp(pixel.G(), 0.0, 1.0));
+        image[offset + 2] = static_cast<unsigned char>(255.999 * clamp(pixel.B(), 0.0, 1.0));
         image[offset + 3] = 255;
     }
 

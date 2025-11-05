@@ -1,8 +1,16 @@
 #include "Camera.hpp"
 #include <cmath>
+#include <random>
+#include <iostream>
 
-Camera::Camera(int width, int height, float vertical_fov_degrees)
-    : image_width(width), image_height(height)
+double random_double() {
+    static std::uniform_real_distribution<double> distribution(0.0, 1.0);
+    static std::mt19937 generator;
+    return distribution(generator);
+}
+
+Camera::Camera(int width, int height, int samples, float vertical_fov_degrees)
+    : image_width(width), image_height(height), samples_per_pixel(samples)
 {
     const float aspect_ratio = (float)image_width / image_height;
     const float focal_length = 1.0f;
@@ -28,14 +36,20 @@ Camera::Camera(int width, int height, float vertical_fov_degrees)
 void Camera::render(const Scene& scene, Image& image) {
     const int max_bounce = 10;
     for (int j = 0; j < image_height; ++j) {
+        std::cout << "\rScanlines remaining: " << (image_height - j - 1) << ' ' << std::flush;
         for (int i = 0; i < image_width; ++i) {
-            const Vector pixel_center = pixel00_loc + (pixel_delta_u * i) + (pixel_delta_v * j);
-            const Vector ray_direction = pixel_center - camera_center;
-            Ray r(camera_center, ray_direction);
+            Color pixel_color(0, 0, 0);
+            for (int s = 0; s < samples_per_pixel; ++s) {
+                const Vector pixel_center = pixel00_loc + (pixel_delta_u * i) + (pixel_delta_v * j);
+                const auto px_offset = (pixel_delta_u * (random_double() - 0.5)) + (pixel_delta_v * (random_double() - 0.5));
+                const Vector sample_point = pixel_center + px_offset;
+                const Vector ray_direction = sample_point - camera_center;
+                Ray r(camera_center, ray_direction);
 
-            Color pixel_color = scene.ray_color(r, max_bounce);
+                pixel_color += scene.ray_color(r, max_bounce);
+            }
 
-            image.SetPixel(i, j, pixel_color);
+            image.SetPixel(i, j, pixel_color / samples_per_pixel);
         }
     }
 }
