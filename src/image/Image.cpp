@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Image.hpp"
 #include "lodepng.h"
+#include <cmath>
 
 Image::Image(unsigned int w, unsigned int h) : width(w), height(h)
 {
@@ -45,9 +46,13 @@ void Image::WriteFile(const char * filename) {
         Color pixel = buffer[index];
         int offset = index * 4;
 
-        image[offset]     = static_cast<unsigned char>(255.999 * clamp(pixel.R(), 0.0, 1.0));
-        image[offset + 1] = static_cast<unsigned char>(255.999 * clamp(pixel.G(), 0.0, 1.0));
-        image[offset + 2] = static_cast<unsigned char>(255.999 * clamp(pixel.B(), 0.0, 1.0));
+        float r = sqrt(clamp(pixel.R(), 0.0, 1.0));
+        float g = sqrt(clamp(pixel.G(), 0.0, 1.0));
+        float b = sqrt(clamp(pixel.B(), 0.0, 1.0));
+
+        image[offset] = static_cast<unsigned char>(255.999 * r);
+        image[offset + 1] = static_cast<unsigned char>(255.999 * g);
+        image[offset + 2] = static_cast<unsigned char>(255.999 * b);
         image[offset + 3] = 255;
     }
 
