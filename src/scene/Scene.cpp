@@ -1,19 +1,10 @@
 #include "Scene.hpp"
 #include "Material.hpp"
 
-Scene::Scene() {}
+Scene::Scene(SkyFunction sky) : background_sky(sky) {}
 
 void Scene::add(std::shared_ptr<Hittable> object) {
     objects.push_back(object);
-}
-
-Color Scene::get_background_color(const Ray& r) const {
-    /*Vector ray_direction = r.Direction();
-    float a = 0.5f * (ray_direction.Y() + 1.0f);
-    Color start_color = Color(1.0f, 1.0f, 1.0f);
-    Color end_color = Color(0.1f, 0.7f, 1.0f);
-    return start_color * (1.0f - a) + end_color * a;*/
-    return Color(0.5f, 0.5f, 0.5f);
 }
 
 Color Scene::ray_color(const Ray& r, int bounce) const {
@@ -35,7 +26,7 @@ Color Scene::ray_color(const Ray& r, int bounce) const {
         return Color(0, 0, 0);
     }
 
-    return get_background_color(r);
+    return background_sky(r);
 }
 
 
