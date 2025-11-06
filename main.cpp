@@ -11,6 +11,39 @@
 #include "materials/SideColorMaterial.hpp"
 #include "materials/Metal.hpp"
 #include <fstream>
+#include <functional>
+
+Color blueSky(const Ray& r) {
+    Vector unit_direction = r.Direction();
+    float a = 0.5f * (unit_direction.Y() + 1.0f);
+    Color start_color = Color(1.0f, 1.0f, 1.0f);
+    Color end_color = Color(0.5f, 0.7f, 1.0f);
+
+    return start_color * (1.0f - a) + end_color * a;
+}
+
+Color purpleSky(const Ray& r) {
+    Vector unit_direction = r.Direction();
+    float a = 0.5f * (unit_direction.Y() + 1.0f);
+    Color start_color = Color(0.9f, 0.5f, 0.3f);
+    Color end_color = Color(0.2f, 0.1f, 0.4f);
+
+    return start_color * (1.0f - a) + end_color * a;
+}
+
+Color orangeSky(const Ray& r) {
+    Vector unit_direction = r.Direction();
+    float a = 0.5f * (unit_direction.Y() + 1.0f);
+    a = a * a;
+    Color start_color = Color(1.0f, 0.5f, 0.0f);
+    Color end_color = Color(0.6f, 0.1f, 0.3f);
+
+    return start_color * (1.0f - a) + end_color * a;
+}
+
+Color greySky(const Ray& r) {
+    return Color(0.7f, 0.7f, 0.7f);
+}
 
 int main()
 {
@@ -20,7 +53,7 @@ int main()
 
     const int image_width = 1920;
     const int image_height = 1080;
-    const int samples_per_pixel = 4;
+    const int samples_per_pixel = 10;
 
     auto material_ground = std::make_shared<CheckerMaterial>(
         Color(0.1, 0.3, 0.1),
@@ -37,7 +70,7 @@ int main()
     auto shiny = std::make_shared<Metal>(Color(0.8, 0.6, 0.2), 0.0f);
     auto rough = std::make_shared<Metal>(Color(0.8, 0.8, 0.8), 0.5f);
 
-    Scene scene;
+    Scene scene(orangeSky);
     scene.add(std::make_shared<Plane>(-0.5f, material_ground));
 
     scene.add(std::make_shared<Sphere>(Vector(0.0f, 0.0f, -9.0f), 0.5f, shiny));
