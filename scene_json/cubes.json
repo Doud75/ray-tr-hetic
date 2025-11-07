@@ -3,7 +3,7 @@
     "width": 1280,
     "height": 720,
     "samples_per_pixel": 15,
-    "vertical_fov": 55.0
+    "vertical_fov": 45.0
   },
   "sky": {
     "type": "purple"

@@ -2,7 +2,7 @@
   "camera": {
     "width": 1920,
     "height": 1080,
-    "samples_per_pixel": 10,
+    "samples_per_pixel": 100,
     "vertical_fov": 45.0
   },
   "sky": {
