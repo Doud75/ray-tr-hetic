@@ -20,11 +20,11 @@ build: start
 
 run:
 	@echo "Exécution de l'application..."
-	@$(DOCKER_EXEC) ./$(BUILD_DIR)/$(TARGET)
+	@$(DOCKER_EXEC) ./$(BUILD_DIR)/$(TARGET) --no-interactive
 
 interactive: build
 	@echo "Lancement en mode interactif..."
-	@$(DOCKER_EXEC) ./$(BUILD_DIR)/$(TARGET) --interactive
+	@$(DOCKER_EXEC) ./$(BUILD_DIR)/$(TARGET)
 
 clean:
 	@echo "Nettoyage des fichiers de build..."

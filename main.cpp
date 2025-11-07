@@ -77,15 +77,19 @@ int main(int argc, char* argv[])
 
     if (argc > 1) {
         std::string arg = argv[1];
-        if (arg == "--interactive") {
-            scene_file = selectSceneInteractively();
-            if (scene_file.empty()) return 1;
+        if (arg == "--no-interactive") {
+            scene_file = "scene_json/default.json";
+            logger.Info("Non-interactive mode selected. Loading default scene: " + scene_file);
         } else {
             scene_file = arg;
         }
     } else {
-        scene_file = "scene_json/default.json";
-        logger.Info("No scene file specified. Loading default scene: " + scene_file);
+        logger.Info("No scene file specified, launching interactive mode...");
+        scene_file = selectSceneInteractively();
+        if (scene_file.empty()) {
+            logger.Warn("No scene selected. Exiting.");
+            return 1;
+        }
     }
 
     logger.Info("Loading scene from: " + scene_file);
