@@ -2,6 +2,7 @@
 
 #include "../image/Image.hpp"
 #include "../scene/Scene.hpp"
+#include <atomic>
 
 class Camera {
 public:
@@ -18,4 +19,6 @@ private:
     Vector pixel00_loc;
     Vector pixel_delta_u;
     Vector pixel_delta_v;
+
+    void render_row(const Scene& scene, Image& image, int start, int end, std::atomic<int>& progress_counter);
 };

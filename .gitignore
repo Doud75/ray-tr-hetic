@@ -116,3 +116,5 @@ repomix-output.xml
 # VS Code / CMake presets (locaux à chaque machine)
 CMakeUserPresets.json
 CMakePresets.json
+
+cmake-presets
