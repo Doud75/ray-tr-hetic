@@ -1,0 +1,44 @@
+{
+  "camera": {
+    "width": 800,
+    "height": 800,
+    "samples_per_pixel": 20,
+    "vertical_fov": 45.0
+  },
+  "sky": {
+    "type": "grey"
+  },
+  "objects": [
+    { "type": "plane", "properties": { "y_position": 0.0 }, "material": { "type": "lambertian", "properties": { "albedo": [0.8, 0.8, 0.8] } } },
+    {
+      "type": "cube",
+      "properties": { "min_corner": [-2, 0, -8], "max_corner": [2, 4, -7.9] },
+      "material": { "type": "lambertian", "properties": { "albedo": [0.8, 0.8, 0.8] } }
+    },
+    {
+      "type": "cube",
+      "properties": { "min_corner": [-2, 3.9, -8], "max_corner": [2, 4, -4] },
+      "material": { "type": "lambertian", "properties": { "albedo": [0.8, 0.8, 0.8] } }
+    },
+    {
+      "type": "cube",
+      "properties": { "min_corner": [-2.1, 0, -8], "max_corner": [-2, 4, -4] },
+      "material": { "type": "lambertian", "properties": { "albedo": [0.8, 0.1, 0.1] } }
+    },
+    {
+      "type": "cube",
+      "properties": { "min_corner": [2, 0, -8], "max_corner": [2.1, 4, -4] },
+      "material": { "type": "lambertian", "properties": { "albedo": [0.1, 0.8, 0.1] } }
+    },
+    {
+      "type": "sphere",
+      "properties": { "center": [-0.8, 0.5, -6], "radius": 0.5 },
+      "material": { "type": "metal", "properties": { "albedo": [0.8, 0.8, 0.8], "fuzz": 0.1 } }
+    },
+    {
+      "type": "cube",
+      "properties": { "min_corner": [0.4, 0, -5.5], "max_corner": [1.4, 1.0, -4.5] },
+      "material": { "type": "lambertian", "properties": { "albedo": [0.8, 0.8, 0.8] } }
+    }
+  ]
+}

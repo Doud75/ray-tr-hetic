@@ -1,120 +1,139 @@
 #include "image/Image.hpp"
 #include "scene/Camera.hpp"
 #include "scene/Scene.hpp"
-#include "shapes/Sphere.hpp"
-#include "shapes/Plane.hpp"
-#include "shapes/Cube.hpp"
 #include "utils/RenderMetrics.hpp"
 #include "utils/Logger.hpp"
-#include "materials/Lambertian.hpp"
-#include "materials/CheckerBoard.hpp"
-#include "materials/SideColorMaterial.hpp"
-#include "materials/Metal.hpp"
+#include "utils/SceneParser.hpp"
 #include <fstream>
 #include <functional>
+#include <string>
+#include <vector>
+#include <filesystem>
+#include <limits>
 
 Color blueSky(const Ray& r) {
     Vector unit_direction = r.Direction();
     float a = 0.5f * (unit_direction.Y() + 1.0f);
-    Color start_color = Color(1.0f, 1.0f, 1.0f);
-    Color end_color = Color(0.5f, 0.7f, 1.0f);
-
-    return start_color * (1.0f - a) + end_color * a;
+    return Color(1.0f, 1.0f, 1.0f) * (1.0f - a) + Color(0.5f, 0.7f, 1.0f) * a;
 }
 
 Color purpleSky(const Ray& r) {
     Vector unit_direction = r.Direction();
     float a = 0.5f * (unit_direction.Y() + 1.0f);
-    Color start_color = Color(0.9f, 0.5f, 0.3f);
-    Color end_color = Color(0.2f, 0.1f, 0.4f);
-
-    return start_color * (1.0f - a) + end_color * a;
+    return Color(0.9f, 0.5f, 0.3f) * (1.0f - a) + Color(0.2f, 0.1f, 0.4f) * a;
 }
 
 Color orangeSky(const Ray& r) {
     Vector unit_direction = r.Direction();
     float a = 0.5f * (unit_direction.Y() + 1.0f);
     a = a * a;
-    Color start_color = Color(1.0f, 0.5f, 0.0f);
-    Color end_color = Color(0.6f, 0.1f, 0.3f);
-
-    return start_color * (1.0f - a) + end_color * a;
+    return Color(1.0f, 0.5f, 0.0f) * (1.0f - a) + Color(0.6f, 0.1f, 0.3f) * a;
 }
 
 Color greySky(const Ray& r) {
     return Color(0.7f, 0.7f, 0.7f);
 }
 
-int main()
+
+std::string selectSceneInteractively() {
+    std::string scenes_dir = "scene_json";
+    std::vector<std::string> scene_files;
+
+    std::cout << "Available scenes:" << std::endl;
+    int i = 0;
+    for (const auto & entry : std::filesystem::directory_iterator(scenes_dir)) {
+        if (entry.path().extension() == ".json") {
+            std::cout << "  " << i + 1 << ". " << entry.path().filename().string() << std::endl;
+            scene_files.push_back(entry.path().string());
+            i++;
+        }
+    }
+
+    if (scene_files.empty()) {
+        std::cerr << "No scenes found in 'scenes/' directory." << std::endl;
+        return "";
+    }
+
+    int choice = -1;
+    while (true) {
+        std::cout << "Enter your choice (1-" << scene_files.size() << "): ";
+        std::cin >> choice;
+        if (std::cin.good() && choice >= 1 && choice <= scene_files.size()) {
+            return scene_files[choice - 1];
+        }
+        std::cout << "Invalid input. Please try again." << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+}
+
+
+int main(int argc, char* argv[])
 {
     Logger logger(Logger::Level::INFO);
     RenderMetrics metrics;
-    logger.Info("Starting raytracer...");
 
-    const int image_width = 1920;
-    const int image_height = 1080;
-    const int samples_per_pixel = 10;
+    std::string scene_file;
 
-    auto material_ground = std::make_shared<CheckerMaterial>(
-        Color(0.1, 0.3, 0.1),
-        Color(0.9, 0.9, 0.9),
-        2.0f
-    );
-    auto material_center = std::make_shared<Lambertian>(Color(0.94, 0.53, 0.26));
-    auto material_left = std::make_shared<Lambertian>(Color(0.8, 0.8, 0.8));
-    auto material_right = std::make_shared<Lambertian>(Color(0.8, 0.6, 0.2));
-    auto material_cube = std::make_shared<SideColorMaterial>(
-        Color(0.9, 0.2, 0.2),
-        Color(0.2, 0.2, 0.9)
-    );
-    auto shiny = std::make_shared<Metal>(Color(0.8, 0.6, 0.2), 0.0f);
-    auto rough = std::make_shared<Metal>(Color(0.8, 0.8, 0.8), 0.5f);
-
-    Scene scene(orangeSky);
-    scene.add(std::make_shared<Plane>(-0.5f, material_ground));
-
-    scene.add(std::make_shared<Sphere>(Vector(0.0f, 0.0f, -9.0f), 0.5f, shiny));
-    scene.add(std::make_shared<Sphere>(Vector(-2.0f, 0.0f, -6.0f), 0.5f, rough));
-    scene.add(std::make_shared<Sphere>(Vector(1.0f, 0.0f, -5.0f), 0.5f, material_right));
-    scene.add(std::make_shared<Cube>(
-        Vector(-3.90f - 0.35f, -0.5f, -7.0f - 0.35f),
-        Vector(-3.90f + 0.35f,  0.2f, -7.0f + 0.35f),
-        material_cube
-    ));
-
-    
-    Image image(image_width, image_height);
-    Camera cam(image_width, image_height, samples_per_pixel, 45.0f);
-
-    metrics.StartRender(image_width, image_height);
-
-    size_t bufferSize = image_width * image_height * sizeof(Color);
-    metrics.RecordImageBufferSize(bufferSize);
-
-    metrics.StartRenderingLoop();
-
-    cam.render(scene, image);
-
-    metrics.StopRenderingLoop();
-
-    const char* filename = "output.png";
-
-    metrics.StartFileWrite();
-    image.WriteFile(filename);
-    metrics.StopFileWrite();
-
-    std::ifstream file(filename, std::ios::binary | std::ios::ate);
-    if (file.is_open())
-    {
-        size_t fileSize = static_cast<size_t>(file.tellg());
-        metrics.RecordFileSize(fileSize);
-        file.close();
+    if (argc > 1) {
+        std::string arg = argv[1];
+        if (arg == "--interactive") {
+            scene_file = selectSceneInteractively();
+            if (scene_file.empty()) return 1;
+        } else {
+            scene_file = arg;
+        }
+    } else {
+        scene_file = "scene_json/default.json";
+        logger.Info("No scene file specified. Loading default scene: " + scene_file);
     }
 
-    metrics.EndRender();
+    logger.Info("Loading scene from: " + scene_file);
 
-    logger.Info("Render completed.");
-    logger.ReportMetrics(metrics.GenerateReport());
+    try {
+        SceneParser parser(scene_file);
+
+        auto cam = parser.createCamera();
+        auto scene = parser.createScene();
+
+        const int image_width = cam->image_width;
+        const int image_height = cam->image_height;
+
+        Image image(image_width, image_height);
+
+        logger.Info("Starting raytracer...");
+        metrics.StartRender(image_width, image_height);
+
+        size_t bufferSize = image_width * image_height * sizeof(Color);
+        metrics.RecordImageBufferSize(bufferSize);
+
+        metrics.StartRenderingLoop();
+        cam->render(*scene, image);
+        metrics.StopRenderingLoop();
+
+        const char* filename = "output.png";
+
+        metrics.StartFileWrite();
+        image.WriteFile(filename);
+        metrics.StopFileWrite();
+
+        std::ifstream file(filename, std::ios::binary | std::ios::ate);
+        if (file.is_open())
+        {
+            size_t fileSize = static_cast<size_t>(file.tellg());
+            metrics.RecordFileSize(fileSize);
+            file.close();
+        }
+
+        metrics.EndRender();
+
+        logger.Info("Render completed.");
+        logger.ReportMetrics(metrics.GenerateReport());
+
+    } catch (const std::exception& e) {
+        logger.Error("An error occurred: " + std::string(e.what()));
+        return 1;
+    }
 
     return 0;
 }

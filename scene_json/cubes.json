@@ -1,0 +1,68 @@
+{
+  "camera": {
+    "width": 1280,
+    "height": 720,
+    "samples_per_pixel": 15,
+    "vertical_fov": 45.0
+  },
+  "sky": {
+    "type": "purple"
+  },
+  "objects": [
+    {
+      "type": "plane",
+      "properties": {
+        "y_position": -0.5
+      },
+      "material": {
+        "type": "checkerboard",
+        "properties": {
+          "color1": [0.2, 0.2, 0.2],
+          "color2": [0.9, 0.9, 0.9],
+          "scale": 1.0
+        }
+      }
+    },
+    {
+      "type": "cube",
+      "properties": {
+        "min_corner": [-2, -0.5, -6],
+        "max_corner": [-1, 0.5, -5]
+      },
+      "material": {
+        "type": "lambertian",
+        "properties": {
+          "albedo": [0.1, 0.8, 0.2]
+        }
+      }
+    },
+    {
+      "type": "cube",
+      "properties": {
+        "min_corner": [0, -0.2, -4],
+        "max_corner": [0.5, 0.3, -3.5]
+      },
+      "material": {
+        "type": "metal",
+        "properties": {
+          "albedo": [0.9, 0.9, 0.1],
+          "fuzz": 0.1
+        }
+      }
+    },
+    {
+      "type": "cube",
+      "properties": {
+        "min_corner": [1.5, -0.5, -8],
+        "max_corner": [2.5, 1.5, -7]
+      },
+      "material": {
+        "type": "sidecolor",
+        "properties": {
+          "front_back_color": [0.1, 0.1, 0.8],
+          "other_faces_color": [0.8, 0.1, 0.1]
+        }
+      }
+    }
+  ]
+}

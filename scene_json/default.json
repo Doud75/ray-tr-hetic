@@ -1,0 +1,82 @@
+{
+  "camera": {
+    "width": 1920,
+    "height": 1080,
+    "samples_per_pixel": 100,
+    "vertical_fov": 45.0
+  },
+  "sky": {
+    "type": "orange"
+  },
+  "objects": [
+    {
+      "type": "plane",
+      "properties": {
+        "y_position": -0.5
+      },
+      "material": {
+        "type": "checkerboard",
+        "properties": {
+          "color1": [0.1, 0.3, 0.1],
+          "color2": [0.9, 0.9, 0.9],
+          "scale": 2.0
+        }
+      }
+    },
+    {
+      "type": "sphere",
+      "properties": {
+        "center": [0.0, 0.0, -9.0],
+        "radius": 0.5
+      },
+      "material": {
+        "type": "metal",
+        "properties": {
+          "albedo": [0.8, 0.6, 0.2],
+          "fuzz": 0.0
+        }
+      }
+    },
+    {
+      "type": "sphere",
+      "properties": {
+        "center": [-2.0, 0.0, -6.0],
+        "radius": 0.5
+      },
+      "material": {
+        "type": "metal",
+        "properties": {
+          "albedo": [0.8, 0.8, 0.8],
+          "fuzz": 0.5
+        }
+      }
+    },
+    {
+      "type": "sphere",
+      "properties": {
+        "center": [1.0, 0.0, -5.0],
+        "radius": 0.5
+      },
+      "material": {
+        "type": "lambertian",
+        "properties": {
+          "albedo": [0.8, 0.6, 0.2]
+        }
+      }
+    },
+    {
+      "type": "cube",
+      "properties": {
+        "min_corner": [-4.25, -0.5, -7.35],
+        "max_corner": [-3.55, 0.2, -6.65]
+      },
+      "material": {
+        "type": "sidecolor",
+        "properties": {
+          "front_back_color": [0.9, 0.2, 0.2],
+          "other_faces_color": [0.2, 0.2, 0.9]
+        }
+      }
+    }
+  ]
+}

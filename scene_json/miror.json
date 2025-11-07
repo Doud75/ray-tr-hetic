@@ -1,0 +1,49 @@
+{
+  "camera": {
+    "width": 1920,
+    "height": 1080,
+    "samples_per_pixel": 50,
+    "vertical_fov": 70.0
+  },
+  "sky": {
+    "type": "purple"
+  },
+  "objects": [
+    {
+      "type": "plane",
+      "properties": { "y_position": 0.0 },
+      "material": {
+        "type": "checkerboard",
+        "properties": {
+          "color1": [0.1, 0.1, 0.1],
+          "color2": [0.9, 0.9, 0.9],
+          "scale": 1.0
+        }
+      }
+    },
+    {
+      "type": "sphere",
+      "properties": { "center": [0, 0.6, -5], "radius": 0.6 },
+      "material": {
+        "type": "lambertian",
+        "properties": { "albedo": [1.0, 0.5, 0.0] }
+      }
+    },
+    {
+      "type": "sphere",
+      "properties": { "center": [-2.5, 2.0, -5], "radius": 2.0 },
+      "material": {
+        "type": "metal",
+        "properties": { "albedo": [0.8, 0.8, 1.0], "fuzz": 0.0 }
+      }
+    },
+    {
+      "type": "sphere",
+      "properties": { "center": [2.5, 2.0, -5], "radius": 2.0 },
+      "material": {
+        "type": "metal",
+        "properties": { "albedo": [1.0, 0.8, 0.8], "fuzz": 0.0 }
+      }
+    }
+  ]
+}

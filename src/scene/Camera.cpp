@@ -28,7 +28,7 @@ Camera::Camera(int width, int height, int samples, float vertical_fov_degrees)
 }
 
 void Camera::render(const Scene& scene, Image& image) {
-    const int max_bounce = 50;
+    const int max_bounce = 10;
     for (int j = 0; j < image_height; ++j) {
         std::cout << "\rScanlines remaining: " << (image_height - j - 1) << ' ' << std::flush;
         for (int i = 0; i < image_width; ++i) {
