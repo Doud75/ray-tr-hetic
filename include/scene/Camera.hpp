@@ -9,9 +9,9 @@ public:
 
     void render(const Scene& scene, Image& image);
 
-private:
     int image_width;
     int image_height;
+private:
     int samples_per_pixel;
 
     Vector camera_center;

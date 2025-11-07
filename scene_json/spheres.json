@@ -1,0 +1,66 @@
+{
+  "camera": {
+    "width": 800,
+    "height": 600,
+    "samples_per_pixel": 20,
+    "vertical_fov": 60.0
+  },
+  "sky": {
+    "type": "blue"
+  },
+  "objects": [
+    {
+      "type": "plane",
+      "properties": {
+        "y_position": -0.5
+      },
+      "material": {
+        "type": "lambertian",
+        "properties": {
+          "albedo": [0.0, 1.0, 0.0]
+        }
+      }
+    },
+    {
+      "type": "sphere",
+      "properties": {
+        "center": [0.0, 0.0, -5.0],
+        "radius": 0.5
+      },
+      "material": {
+        "type": "lambertian",
+        "properties": {
+          "albedo": [0.7, 0.1, 0.1]
+        }
+      }
+    },
+    {
+      "type": "sphere",
+      "properties": {
+        "center": [-1.2, 0.0, -5.0],
+        "radius": 0.5
+      },
+      "material": {
+        "type": "metal",
+        "properties": {
+          "albedo": [0.8, 0.8, 0.8],
+          "fuzz": 0.0
+        }
+      }
+    },
+    {
+      "type": "sphere",
+      "properties": {
+        "center": [1.2, 0.0, -5.0],
+        "radius": 0.5
+      },
+      "material": {
+        "type": "metal",
+        "properties": {
+          "albedo": [0.6, 0.8, 0.6],
+          "fuzz": 0.7
+        }
+      }
+    }
+  ]
+}

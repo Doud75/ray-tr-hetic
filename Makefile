@@ -22,6 +22,10 @@ run:
 	@echo "Exécution de l'application..."
 	@$(DOCKER_EXEC) ./$(BUILD_DIR)/$(TARGET)
 
+interactive: build
+	@echo "Lancement en mode interactif..."
+	@$(DOCKER_EXEC) ./$(BUILD_DIR)/$(TARGET) --interactive
+
 clean:
 	@echo "Nettoyage des fichiers de build..."
 	@$(DOCKER_EXEC) rm -rf $(BUILD_DIR)
@@ -30,4 +34,4 @@ shell: start
 	@echo "Ouverture d'un shell dans le conteneur..."
 	@$(DOCKER_EXEC) bash
 
-.PHONY: all start stop build run clean shell
+.PHONY: all start stop build run clean shell interactive
