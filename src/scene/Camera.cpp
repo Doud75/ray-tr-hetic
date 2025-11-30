@@ -30,9 +30,14 @@ Camera::Camera(int width, int height, int samples, float vertical_fov_degrees)
     pixel00_loc = viewport_upper_left + (pixel_delta_u + pixel_delta_v) * 0.5;
 }
 
-void Camera::render_row(const Scene& scene, Image& image, int start, int end, std::atomic<int>& progress_counter) {
+void Camera::render_lines(const Scene& scene, Image& image, std::atomic<int>& next_line) {
     const int max_bounce = 10;
-    for (int j = start; j < end; ++j) {
+
+    while (true) {
+        int j = next_line++;
+
+        if (j >= image_height) return;
+
         for (int i = 0; i < image_width; ++i) {
             Color pixel_color(0, 0, 0);
             for (int s = 0; s < samples_per_pixel; ++s) {
@@ -47,7 +52,6 @@ void Camera::render_row(const Scene& scene, Image& image, int start, int end, st
 
             image.SetPixel(i, j, pixel_color / samples_per_pixel);
         }
-        progress_counter++;
     }
 }
 
@@ -56,29 +60,20 @@ void Camera::render(const Scene& scene, Image& image) {
     std::cout << "Utilisation de " << num_threads << " threads." << std::endl;
 
     std::vector<std::thread> threads;
-    std::atomic<int> progress_counter(0);
-    const int rows_per_thread = image_height / num_threads;
+    std::atomic<int> next_line(0);
 
     for (unsigned int t = 0; t < num_threads; ++t) {
-        const int start_y = t * rows_per_thread;
-        const int end_y = (t == num_threads - 1) ? image_height : start_y + rows_per_thread;
-
         threads.emplace_back(
-            &Camera::render_row, this,
+            &Camera::render_lines, this,
             std::cref(scene),
             std::ref(image),
-            start_y,
-            end_y,
-            std::ref(progress_counter)
+            std::ref(next_line)
         );
     }
 
-    while (progress_counter < image_height) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
-    std::cout << "\rScanlines rendues : " << image_height << "/" << image_height << "   " << std::endl;
-
     for (auto& thread : threads) {
-        thread.join();
+        if (thread.joinable()) {
+            thread.join();
+        }
     }
 }

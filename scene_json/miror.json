@@ -6,7 +6,7 @@
     "vertical_fov": 70.0
   },
   "sky": {
-    "type": "purple"
+    "type": "orange"
   },
   "objects": [
     {
