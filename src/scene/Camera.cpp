@@ -30,7 +30,7 @@ Camera::Camera(int width, int height, int samples, float vertical_fov_degrees)
     pixel00_loc = viewport_upper_left + (pixel_delta_u + pixel_delta_v) * 0.5;
 }
 
-void Camera::render_row(const Scene& scene, Image& image, int start, int end, std::atomic<int>& progress_counter) {
+void Camera::render_row(const Scene& scene, Image& image, int start, int end) {
     const int max_bounce = 10;
     for (int j = start; j < end; ++j) {
         for (int i = 0; i < image_width; ++i) {
@@ -47,7 +47,6 @@ void Camera::render_row(const Scene& scene, Image& image, int start, int end, st
 
             image.SetPixel(i, j, pixel_color / samples_per_pixel);
         }
-        progress_counter++;
     }
 }
 
@@ -56,7 +55,6 @@ void Camera::render(const Scene& scene, Image& image) {
     std::cout << "Utilisation de " << num_threads << " threads." << std::endl;
 
     std::vector<std::thread> threads;
-    std::atomic<int> progress_counter(0);
     const int rows_per_thread = image_height / num_threads;
 
     for (unsigned int t = 0; t < num_threads; ++t) {
@@ -68,15 +66,9 @@ void Camera::render(const Scene& scene, Image& image) {
             std::cref(scene),
             std::ref(image),
             start_y,
-            end_y,
-            std::ref(progress_counter)
+            end_y
         );
     }
-
-    while (progress_counter < image_height) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
-    std::cout << "\rScanlines rendues : " << image_height << "/" << image_height << "   " << std::endl;
 
     for (auto& thread : threads) {
         thread.join();

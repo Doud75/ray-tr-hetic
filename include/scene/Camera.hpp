@@ -20,5 +20,5 @@ private:
     Vector pixel_delta_u;
     Vector pixel_delta_v;
 
-    void render_row(const Scene& scene, Image& image, int start, int end, std::atomic<int>& progress_counter);
+    void render_row(const Scene& scene, Image& image, int start, int end);
 };
