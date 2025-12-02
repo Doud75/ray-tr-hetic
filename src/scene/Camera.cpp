@@ -12,13 +12,16 @@ Camera::Camera(int width, int height, int samples, float vertical_fov_degrees)
     const float aspect_ratio = (float)image_width / image_height;
     const float focal_length = 1.0f;
 
+    // convertir les degrés en radiant
     const float theta = vertical_fov_degrees * (M_PI / 180.0f);
 
-    const float h = tan(theta / 2.0f);
-    const float viewport_height = 2.0f * h * focal_length;
+    // puisque tan(a) = coté opposé / coté adjacent
+    // alors coté opposé = tan(a) * coté adjacent
+    const float half_height = tan(theta / 2.0f) * focal_length;
+    const float viewport_height = half_height * 2.0f ;
     const float viewport_width = viewport_height * aspect_ratio;
 
-    camera_center = Vector(0.0f, 1.0f, 1.0f);
+    camera_center = Vector(0.0f, 1.0f, 2.0f);
 
     const Vector viewport_u(viewport_width, 0, 0);
     const Vector viewport_v(0, -viewport_height, 0);
