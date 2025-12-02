@@ -72,8 +72,6 @@ void Camera::render(const Scene& scene, Image& image) {
     }
 
     for (auto& thread : threads) {
-        if (thread.joinable()) {
-            thread.join();
-        }
+        thread.join();
     }
 }
